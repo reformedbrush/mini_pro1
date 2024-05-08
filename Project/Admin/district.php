@@ -3,7 +3,7 @@ include("../Assets/Connection/Connection.php");
 if(isset($_POST["btn_submit"]))
 {
 	$district=$_POST["district"];
-	$insQry="insert into tbl_admin(admin_name,admin_email,admin_password) values('".$name."','".$email."','".$password."')";
+	$insQry="insert into tbl_district(dist_name) values('".$district."')";
 	echo $insQry;
 	if($con->query($insQry))
 	{
@@ -28,7 +28,7 @@ if(isset($_POST["btn_submit"]))
     </tr>
     <tr>
       <td colspan="2"><div align="center">
-        <input type="submit" name="Submit" id="Submit" value="Submit" />
+        <input type="submit" name="btn_submit" id="Submit" value="Submit" />
       </div></td>
     </tr>
   </table>

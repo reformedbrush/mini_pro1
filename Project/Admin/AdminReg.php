@@ -12,6 +12,17 @@ if(isset($_POST["btn_submit"]))
 		echo "inserted";
 	}
 }
+if(isset($_GET["did"])){
+	
+	$did=$_GET["did"];
+	$delQry="delete from tbl_admin where admin_id=".$did;
+	if($con->query($delQry))
+	{
+		?>
+        <script>window.location="AdminReg.php";</script>
+        <?php
+	}
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -22,29 +33,74 @@ if(isset($_POST["btn_submit"]))
 
 <body>
 <form id="form1" name="form1" method="post" action="">
+
+<table width="200" border="1">
+  <tr>
+    <td>Name </td>
+    <td><label for="txt_name"></label>
+    <input type="text" name="txt_name" id="txt_name" /></td>
+  </tr>
+  <tr>
+    <td>Email</td>
+    <td>
+      <label for="txt_email"></label>
+      <input type="text" name="txt_email" id="txt_email" />
+   </td>
+  </tr>
+  <tr>
+    <td>Password</td>
+    <td>
+    <label for="txt_password"></label>
+      <input type="text" name="txt_password" id="txt_password" /></td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <div align="center">
+        <input type="submit" name="btn_submit" id="btn_submit" value="Submit" />
+        <input type="submit" name="btn_cancel" id="btn_cancel" value="Cancel" />
+      </div>
+   </td>
+  </tr>
+</table>
+</form>
   <table width="200" border="1">
     <tr>
+      <td>SiNo</td>
       <td>Name</td>
-      <td><label for="txt_name"></label>
-      <input type="text" name="txt_name" id="txt_name" /></td>
-    </tr>
-    <tr>
       <td>Email</td>
-      <td><label for="txt_"></label>
-      <input type="text" name="txt_" id="txt_email" /></td>
-    </tr>
-    <tr>
       <td>Password</td>
-      <td><label for="txt_password"></label>
-      <input type="text" name="txt_password" id="txt_password" /></td>
+      <td>Action</td>
     </tr>
+    <?php
+		$selQry="Select *from tbl_admin";
+		$result=$con->query($selQry);
+		$i=0;
+		while($data=$result->fetch_assoc())
+		{
+			$i++;
+	?>
     <tr>
-      <td colspan="2"><div align="center">
-        <input type="submit" name="btn_submit" id="Submit" value="Submit" />
-        <input type="submit" name="btn_cancel" id="Cancel" value="Cancel" />
-      </div></td>
+      <td><?php
+	  echo $i; 
+	  
+	  ?></td>
+      <td><?php
+	  echo $data["admin_name"];
+      ?>
+      </td>
+      <td>
+      <?php
+	  echo $data["admin_email"];
+      ?>	
+      </td>
+      <td><?php
+	  echo $data["admin_password"];
+      ?>	</td>
+      <td><a href="AdminReg.php?did=<?php echo $data["admin_id"];?>">Delete</a></td>
     </tr>
-  </table>
-</form>
-</body>
-</html>
+    <?php
+		}
+	?>
+  </table>
+</body
+></html>
