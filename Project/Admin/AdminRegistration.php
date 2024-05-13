@@ -1,5 +1,11 @@
 <?php
 include("../Assets/Connection/Connection.php");
+$name="";
+$email="";
+$password="";
+$aid=0;
+
+
 if(isset($_POST["btn_submit"]))
 {
 	$name=$_POST["txt_name"];
@@ -12,23 +18,33 @@ if(isset($_POST["btn_submit"]))
 		echo "inserted";
 	}
 }
-if(isset($_GET["did"])){
-	
+if(isset($_GET["did"]))
+{	
 	$did=$_GET["did"];
 	$delQry="delete from tbl_admin where admin_id=".$did;
 	if($con->query($delQry))
 	{
 		?>
-        <script>window.location="AdminReg.php";</script>
-        <?php
+        <script>
+		window.location="AdminRegistration.php";</script>
+        
+<?php
 	}
+}
+if(isset($_GET["eid"]))
+{	
+	$eid=$_GET["eid"];
+	$selQryOne="select * from tbl_admin where admin_id=".$eid;
+	$resultOne=$con->query($selQryOne);
+	$dataOne=$resultOne->fetch_assoc();
+	$name=$dataOne["admin_name"];
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
+<title>Admin Registration</title>
 </head>
 
 <body>
@@ -38,7 +54,7 @@ if(isset($_GET["did"])){
   <tr>
     <td>Name </td>
     <td><label for="txt_name"></label>
-    <input type="text" name="txt_name" id="txt_name" /></td>
+    <input type="text" name="txt_name" id="txt_name" value="<?php echo 	$name; ?>"/></td>
   </tr>
   <tr>
     <td>Email</td>
@@ -80,10 +96,11 @@ if(isset($_GET["did"])){
 			$i++;
 	?>
     <tr>
-      <td><?php
-	  echo $i; 
-	  
-	  ?></td>
+      <td>
+     <?php
+	 echo $i;
+	 ?>
+      </td>
       <td><?php
 	  echo $data["admin_name"];
       ?>
@@ -93,14 +110,18 @@ if(isset($_GET["did"])){
 	  echo $data["admin_email"];
       ?>	
       </td>
-      <td><?php
+      <td>
+       <?php
 	  echo $data["admin_password"];
-      ?>	</td>
-      <td><a href="AdminReg.php?did=<?php echo $data["admin_id"];?>">Delete</a></td>
+      ?>
+      </td>
+      <td>
+      <a href="AdminRegistration.php?did=<?php echo $data["admin_id"];?>">Delete</a> 
+      <a href="AdminRegistration.php?eid=<?php echo $data["admin_id"];?>">Edit</a></td>
     </tr>
     <?php
 		}
 	?>
-  </table>
-</body
-></html>
+  </table>
+</body>
+</html>
